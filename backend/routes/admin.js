@@ -20,10 +20,46 @@ const router = express.Router();
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    const { token, user } = await authenticate(email, password);
-    res.json({ ok: true, token, user });
+    
+    if (!email || !password) {
+      return res.status(400).json({ 
+        ok: false, 
+        error: 'Email and password are required' 
+      });
+    }
+
+    try {
+      const { token, user } = await authenticate(email, password);
+      
+      // Set secure, HTTP-only cookie with the token
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Use secure in production
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      });
+      
+      // Also send the token in the response for clients that need it
+      res.json({ 
+        ok: true, 
+        token, 
+        user,
+        message: 'Login successful' 
+      });
+    } catch (authError) {
+      console.error('Login failed for email:', email, 'Error:', authError.message);
+      // Don't reveal whether the email exists or the password was wrong
+      res.status(401).json({ 
+        ok: false, 
+        error: 'Invalid email or password' 
+      });
+    }
   } catch (e) {
-    res.status(401).json({ ok: false, error: e.message });
+    console.error('Login error:', e);
+    res.status(500).json({ 
+      ok: false, 
+      error: 'An error occurred during login. Please try again.' 
+    });
   }
 });
 

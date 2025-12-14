@@ -1,15 +1,49 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'; // Change this!
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+if (!JWT_SECRET || !ADMIN_EMAIL || !ADMIN_PASSWORD) {
+  throw new Error('Missing JWT_SECRET, ADMIN_EMAIL, or ADMIN_PASSWORD in backend/.env');
+}
 
 export const authenticate = async (email, password) => {
-  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    const token = jwt.sign({ email, role: 'admin' }, JWT_SECRET, { expiresIn: '7d' });
-    return { token, user: { email, role: 'admin' } };
+  try {
+    if (!email || !password) {
+      throw new Error('Email and password are required');
+    }
+    
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      const token = jwt.sign(
+        { 
+          email, 
+          role: 'admin',
+          iat: Math.floor(Date.now() / 1000) - 30 // Add issued at time
+        }, 
+        JWT_SECRET, 
+        { 
+          expiresIn: '7d',
+          algorithm: 'HS256' // Specify algorithm for security
+        }
+      );
+      
+      return { 
+        token, 
+        user: { 
+          email, 
+          role: 'admin' 
+        } 
+      };
+    }
+    
+    throw new Error('Invalid email or password');
+  } catch (error) {
+    throw error; // Re-throw the error to be handled by the route
   }
-  throw new Error('Invalid credentials');
 };
 
 export const verifyToken = (token) => {

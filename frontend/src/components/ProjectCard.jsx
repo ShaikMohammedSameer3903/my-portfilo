@@ -39,7 +39,7 @@ const ProjectCard = ({ project, index = 0 }) => {
           </>
         )}
 
-        {(project.githubUrl || project.liveUrl) && (
+        {(project.githubUrl || project.demoUrl || project.liveUrl) && (
           <div className="flex flex-wrap gap-2 mt-auto">
             {project.githubUrl && (
               <a
@@ -49,6 +49,16 @@ const ProjectCard = ({ project, index = 0 }) => {
                 className="modern-btn text-sm py-2 px-4"
               >
                 <i className="fab fa-github mr-2"></i>GitHub
+              </a>
+            )}
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="modern-btn-outline text-sm py-2 px-4"
+              >
+                <i className="fas fa-play mr-2"></i>Demo Video
               </a>
             )}
             {project.liveUrl && (

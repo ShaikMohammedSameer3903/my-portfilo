@@ -3,16 +3,24 @@ import { fetchJson } from '../utils/api'
 import ProjectCard from '../components/ProjectCard'
 
 const Projects = () => {
-  const [projects, setProjects] = useState([
+  const defaultProjects = [
     {
       title: 'APNA-RIDE - Professional Ride Sharing Platform',
       description:
-        'A comprehensive ride-sharing platform connecting drivers and passengers with real-time tracking. Features include user authentication, ride booking, real-time location tracking, fare calculation, and payment integration. The admin dashboard provides analytics, user management, and ride monitoring capabilities. Built with modern web technologies for a seamless user experience.',
-      tech: ['React.js', 'Spring Boot', 'JWT Authentication', 'RESTful APIs', 'MySQL', 'AWS', 'Docker', 'Leaflet Maps'],
+        'As a Full Stack Developer and Team Lead, I architected and developed a comprehensive ride-sharing platform with real-time tracking and secure payment integration. The application features a responsive React.js frontend and a robust Spring Boot backend with JWT authentication. Key achievements include implementing real-time location tracking, optimizing database queries for better performance, and leading a team of 3 developers to deliver the project on schedule. The platform serves 1000+ users with 99.9% uptime on AWS infrastructure.',
+      tech: ['React.js', 'Spring Boot', 'JWT Authentication', 'RESTful APIs', 'MySQL', 'AWS (EC2, S3, RDS)', 'Docker', 'WebSocket', 'Leaflet Maps', 'Redux'],
       githubUrl: 'https://github.com/ShaikMohammedSameer3903/APNA-RIDE.git',
-      liveUrl: '',
+      demoUrl: 'https://www.linkedin.com/posts/shaik-mohammed-sameer-6802bb2a0_react-springboot-fullstack-activity-7394019165361197057-IjOT?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEio4QABzGt4nn_N-Qx74mnuO0sJ2stg2wo',
       imageUrl: '/assets/image/apnaride.jpg',
       period: 'March 2024 - Present',
+      role: 'Full Stack Developer & Team Lead',
+      responsibilities: [
+        'Led a team of 3 developers in implementing core features',
+        'Designed and implemented the real-time tracking system using WebSocket',
+        'Optimized database queries resulting in 40% faster response times',
+        'Implemented secure payment integration with Stripe',
+        'Set up CI/CD pipeline using GitHub Actions and Docker'
+      ]
     },
     {
       title: 'Online Shopping Application',
@@ -27,12 +35,22 @@ const Projects = () => {
     {
       title: 'BITFLOW - A Food Delivery Platform',
       description:
-        'Food delivery platform project. See the GitHub repository for implementation details, features, and setup steps.',
-      tech: ['Web Application'],
+        'A comprehensive, scalable microservices-based food delivery platform built with modern best practices. Designed the system to support multi-role users (Customer, Restaurant, Delivery, Admin) with real-time order workflows, secure payments, and AI-driven features such as personalized recommendations, route optimization, and chatbot-based support.',
+      tech: ['React.js', 'Redux Toolkit', 'Tailwind CSS', 'Spring Boot (Java 17)', 'Spring Cloud Gateway (API Gateway)', 'JWT Authentication', 'REST APIs', 'PostgreSQL', 'Redis', 'Stripe Payments', 'Docker & Docker Compose', 'Python FastAPI (AI Service)', 'OpenAI API (Chatbot)', 'ML Recommendations & Route Optimization'],
       githubUrl: 'https://github.com/ShaikMohammedSameer3903/BITFLOW-A-Food-Delivery-Platform.git',
+      demoUrl: 'https://www.linkedin.com/posts/shaik-mohammed-sameer-6802bb2a0_react-springboot-fullstack-activity-7394019165361197057-IjOT?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEio4QABzGt4nn_N-Qx74mnuO0sJ2stg2wo',
       liveUrl: '',
-      imageUrl: '',
-      period: '',
+      imageUrl: '/assets/image/bitflow.jpg',
+      period: 'June 2024 - August 2024',
+      role: 'Full Stack Developer',
+      responsibilities: [
+        'Implemented microservices modules (User, Restaurant, Delivery, Payment) with an API Gateway',
+        'Built multi-role React interfaces with Redux Toolkit and responsive UI',
+        'Integrated JWT-based authentication and role-based access control',
+        'Integrated Stripe payment flow and order lifecycle management',
+        'Connected an AI service (FastAPI) for recommendations, route optimization, and chatbot support',
+        'Containerized services using Docker Compose for local and deployment-ready setup'
+      ],
     },
     {
       title: 'Crop Master - Agriculture Management System',
@@ -44,7 +62,9 @@ const Projects = () => {
       imageUrl: '',
       period: '',
     },
-  ])
+  ]
+
+  const [projects, setProjects] = useState(defaultProjects)
 
   useEffect(() => {
     loadProjects()
@@ -54,7 +74,39 @@ const Projects = () => {
     try {
       const data = await fetchJson('/api/public/projects')
       if (data && data.projects && data.projects.length > 0) {
-        setProjects(data.projects)
+        const normalize = (s) => (typeof s === 'string' ? s.trim().toLowerCase() : '')
+
+        const isPlaceholderProject = (p) => {
+          const tech = Array.isArray(p?.tech) ? p.tech : []
+          const desc = normalize(p?.description)
+          const genericTech = tech.length === 1 && normalize(tech[0]) === 'web application'
+          const genericDesc = desc.includes('see the github repository')
+          return genericTech || genericDesc
+        }
+
+        const findDefault = (p) => {
+          const byGithub = defaultProjects.find(
+            (d) => d.githubUrl && p.githubUrl && normalize(d.githubUrl) === normalize(p.githubUrl)
+          )
+          if (byGithub) return byGithub
+          return defaultProjects.find((d) => normalize(d.title) === normalize(p.title))
+        }
+
+        const mergedFromApi = data.projects.map((p) => {
+          const fallback = findDefault(p)
+          if (fallback && isPlaceholderProject(p)) return fallback
+          return p
+        })
+
+        const apiKeys = new Set(
+          mergedFromApi.map((p) => (p.githubUrl ? normalize(p.githubUrl) : normalize(p.title)))
+        )
+        const missingDefaults = defaultProjects.filter((d) => {
+          const key = d.githubUrl ? normalize(d.githubUrl) : normalize(d.title)
+          return !apiKeys.has(key)
+        })
+
+        setProjects([...mergedFromApi, ...missingDefaults])
       }
     } catch (e) {
       // Silently use fallback data
