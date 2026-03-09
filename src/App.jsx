@@ -3,19 +3,11 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AppContent from './components/AppContent'
-import { isAuthenticated } from './utils/api'
+import LandingSplash from './components/LandingSplash'
 
 function App() {
   const [auth, setAuth] = useState(false);
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    const authenticated = await isAuthenticated();
-    setAuth(authenticated);
-  };
+  const [showLanding, setShowLanding] = useState(true);
 
   // Initialize AOS
   useEffect(() => {
@@ -23,6 +15,11 @@ function App() {
       window.AOS.init({ duration: 1000, once: false, easing: 'ease-in-out' });
     }
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowLanding(false), 1600)
+    return () => clearTimeout(timer)
+  }, [])
 
   // Handle hash navigation
   useEffect(() => {
@@ -50,10 +47,11 @@ function App() {
         v7_relativeSplatPath: true,
       }}
     >
+      {showLanding && <LandingSplash onDone={() => setShowLanding(false)} />}
       <div className="min-h-screen flex flex-col">
         <Navbar auth={auth} setAuth={setAuth} />
         <main className="flex-grow pt-20">
-          <AppContent setAuth={setAuth} />
+          <AppContent />
         </main>
         <Footer />
       </div>

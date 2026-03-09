@@ -197,6 +197,25 @@ const Skills = () => {
                 </div>
               </div>
             </div>
+
+            <div className="glass-card" data-aos="zoom-in" data-aos-delay="200">
+              <div className="flex items-center">
+                <img
+                  src="/assets/image/placeholder.svg"
+                  alt="DE PAUL High School"
+                  className="w-20 h-20 rounded-full mr-4 object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.src = '/assets/image/placeholder.svg'
+                  }}
+                />
+                <div>
+                  <h4 className="font-bold text-xl text-light">DE PAUL High School</h4>
+                  <p className="text-light/80">Secondary School Certificate (SSC)</p>
+                  <p className="text-light/70 text-sm">June 2020 - May 2021</p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

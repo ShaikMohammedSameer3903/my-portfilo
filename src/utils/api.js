@@ -134,39 +134,3 @@ export function resetBackendCheck() {
   backendAvailable = true;
   backendCheckAttempts = 0;
 }
-
-const storageKey = 'sameer_admin_token';
-
-export function getToken() {
-  return localStorage.getItem(storageKey) || '';
-}
-
-export function setToken(token) {
-  if (token) localStorage.setItem(storageKey, token);
-  else localStorage.removeItem(storageKey);
-}
-
-export async function adminFetch(path, options = {}) {
-  const token = getToken();
-  return fetchJson(path, {
-    ...options,
-    headers: {
-      ...(options.headers || {}),
-      Authorization: `Bearer ${token}`,
-    },
-  });
-}
-
-export async function isAuthenticated() {
-  const token = getToken();
-  if (!token) return false;
-  try {
-    await adminFetch('/api/admin/me');
-    return true;
-  } catch (_e) {
-    setToken('');
-    return false;
-  }
-}
-
-
