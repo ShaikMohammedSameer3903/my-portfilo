@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 # Shaik Mohammed Sameer - Portfolio Website
 
 A modern, responsive portfolio website built with React.js, Tailwind CSS, and Node.js/Express backend.
+=======
+# Portfolio Frontend
+
+Modern, responsive portfolio website built with React.js and Tailwind CSS.
+>>>>>>> master
 
 ## Features
 
 - ✨ Clean, modern, and professional design
 - 📱 Fully responsive (mobile, tablet, laptop, desktop)
+<<<<<<< HEAD
 - 🔐 Admin dashboard with secure authentication
 - 🎨 Beautiful animations and smooth transitions
 - ⚡ Fast and lightweight
@@ -42,20 +49,39 @@ cd frontend
 ```
 
 2. Install dependencies:
+=======
+- 🔐 Admin login with dashboard
+- 🎨 Beautiful animations and transitions
+- ⚡ Fast and lightweight
+- 🎯 SEO-friendly
+
+## Setup
+
+1. Install dependencies:
+>>>>>>> master
 ```bash
 npm install
 ```
 
+<<<<<<< HEAD
 3. Create `.env` file (optional):
+=======
+2. Create a `.env` file (optional, for API configuration):
+>>>>>>> master
 ```env
 VITE_API_BASE_URL=http://localhost:3000
 ```
 
+<<<<<<< HEAD
 4. Start development server:
+=======
+3. Start the development server:
+>>>>>>> master
 ```bash
 npm run dev
 ```
 
+<<<<<<< HEAD
 Frontend will be available at `http://localhost:5173`
 
 ### Backend Setup
@@ -114,6 +140,68 @@ Access the admin dashboard by:
 ## Technologies
 
 ### Frontend
+=======
+The app will be available at `http://localhost:5173`
+
+## Build
+
+To build for production:
+```bash
+npm run build
+```
+
+The built files will be in the `dist` directory.
+
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── components/      # Reusable components
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   ├── ProjectCard.jsx
+│   │   └── SkillBadge.jsx
+│   ├── pages/           # Page components
+│   │   ├── Home.jsx
+│   │   ├── About.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Skills.jsx
+│   │   ├── Contact.jsx
+│   │   └── Login.jsx
+│   ├── admin/           # Admin dashboard components
+│   │   ├── Dashboard.jsx
+│   │   ├── EditProfile.jsx
+│   │   ├── EditSkills.jsx
+│   │   ├── EditProjects.jsx
+│   │   └── EditResume.jsx
+│   ├── utils/           # Utility functions
+│   │   └── api.js
+│   ├── App.jsx          # Main app component
+│   ├── main.jsx         # Entry point
+│   └── index.css        # Global styles
+├── public/              # Static assets
+└── tailwind.config.js   # Tailwind configuration
+```
+
+## Admin Dashboard
+
+Access the admin dashboard by clicking the login icon in the navbar (top-right corner). The default credentials are:
+- Email: `admin@example.com`
+- Password: `admin123`
+
+**Important**: Change these credentials in the backend `.env` file!
+
+## Customization
+
+- Colors and theme: Edit `tailwind.config.js`
+- Global styles: Edit `src/index.css`
+- Components: Modify files in `src/components/`
+- Pages: Modify files in `src/pages/`
+
+## Technologies Used
+
+>>>>>>> master
 - React 18
 - React Router 6
 - Tailwind CSS 3
@@ -121,6 +209,7 @@ Access the admin dashboard by:
 - Font Awesome Icons
 - Particles.js
 
+<<<<<<< HEAD
 ### Backend
 - Node.js
 - Express.js
@@ -150,3 +239,5 @@ This project is private and proprietary.
 
 For questions or support, please contact through the portfolio website.
 
+=======
+>>>>>>> master
