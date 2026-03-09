@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { isAuthenticated, setToken } from '../utils/api'
 
 const Navbar = ({ auth, setAuth }) => {
   const [scrolled, setScrolled] = useState(false)
@@ -16,16 +15,12 @@ const Navbar = ({ auth, setAuth }) => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleLogout = () => {
-    setToken('')
-    setAuth(false)
-  }
-
   const navLinks = [
     { path: '/', hash: '#home', label: 'Home', icon: 'home' },
     { path: '/', hash: '#skills', label: 'Skills', icon: 'code' },
     { path: '/', hash: '#education', label: 'Education', icon: 'graduation-cap' },
     { path: '/', hash: '#projects', label: 'Projects', icon: 'project-diagram' },
+    { path: '/', hash: '#github', label: 'GitHub', icon: 'github' },
     { path: '/', hash: '#achievement', label: 'Achievements', icon: 'trophy' },
     { path: '/', hash: '#contact', label: 'Contact', icon: 'paper-plane' },
   ]
@@ -116,30 +111,6 @@ const Navbar = ({ auth, setAuth }) => {
                 )}
               </button>
             ))}
-            {auth ? (
-              <Link
-                to="/admin/dashboard"
-                className="px-4 py-2 rounded-lg font-semibold text-light hover:text-accent transition-all duration-300"
-              >
-                <i className="fas fa-user-shield mr-2"></i>Dashboard
-              </Link>
-            ) : (
-              <Link
-                to="/login"
-                className="px-3 py-2 rounded-full border border-white/30 text-white/60 hover:text-white hover:border-accent/50 transition-all duration-300 text-sm opacity-60 hover:opacity-100"
-                title="Admin Login"
-              >
-                <i className="fas fa-user-lock"></i>
-              </Link>
-            )}
-            {auth && (
-              <button
-                onClick={handleLogout}
-                className="px-3 py-2 rounded-lg text-light hover:text-accent transition-all duration-300 text-sm"
-              >
-                <i className="fas fa-sign-out-alt mr-2"></i>Logout
-              </button>
-            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -169,36 +140,6 @@ const Navbar = ({ auth, setAuth }) => {
                 {link.label}
               </button>
             ))}
-            <div className="pt-2 border-t border-white/10">
-              {auth ? (
-                <>
-                  <Link
-                    to="/admin/dashboard"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-4 py-2 rounded-lg font-semibold text-light hover:text-accent transition-all duration-300"
-                  >
-                    <i className="fas fa-user-shield mr-2"></i>Dashboard
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleLogout()
-                      setMobileMenuOpen(false)
-                    }}
-                    className="block w-full text-left px-4 py-2 rounded-lg text-light hover:text-accent transition-all duration-300"
-                  >
-                    <i className="fas fa-sign-out-alt mr-2"></i>Logout
-                  </button>
-                </>
-              ) : (
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-2 rounded-lg font-semibold text-light hover:text-accent transition-all duration-300"
-                >
-                  <i className="fas fa-user-lock mr-2"></i>Admin Login
-                </Link>
-              )}
-            </div>
           </div>
         )}
       </div>

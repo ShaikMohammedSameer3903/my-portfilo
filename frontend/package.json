@@ -1,4 +1,8 @@
 {
+<<<<<<< HEAD
+  "dependencies": {
+    "cors": "^2.8.5"
+=======
   "name": "sameer-portfolio-frontend",
   "version": "1.0.0",
   "private": true,
@@ -21,5 +25,6 @@
     "tailwindcss": "^3.4.0",
     "postcss": "^8.4.32",
     "autoprefixer": "^10.4.16"
+>>>>>>> master
   }
 }

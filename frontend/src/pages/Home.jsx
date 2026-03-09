@@ -6,47 +6,10 @@ const Home = () => {
     name: 'Shaik Mohammed Sameer',
     headline: 'B.Tech CSE | KL University',
   })
-  const [typingText, setTypingText] = useState('')
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  const roles = [
-    'Full Stack Developer',
-    'React.js Developer',
-    'Java Developer',
-    'Problem Solver',
-    'Team Leader',
-  ]
 
   useEffect(() => {
     loadProfile()
   }, [])
-
-  useEffect(() => {
-    const typeWriter = () => {
-      if (currentIndex < roles.length) {
-        const currentRole = roles[currentIndex]
-        let charIndex = 0
-        setTypingText('')
-
-        const typingInterval = setInterval(() => {
-          if (charIndex < currentRole.length) {
-            setTypingText(currentRole.substring(0, charIndex + 1))
-            charIndex++
-          } else {
-            clearInterval(typingInterval)
-            setTimeout(() => {
-              setCurrentIndex((prev) => (prev + 1) % roles.length)
-            }, 2000)
-          }
-        }, 100)
-
-        return () => clearInterval(typingInterval)
-      }
-    }
-
-    const timer = setTimeout(typeWriter, 100)
-    return () => clearTimeout(timer)
-  }, [currentIndex])
 
   const loadProfile = async () => {
     try {
@@ -94,61 +57,36 @@ const Home = () => {
   return (
     <section id="home" className="min-h-screen flex items-center relative overflow-hidden py-20 scroll-mt-20">
       <div id="particles-js" className="absolute inset-0 -z-10"></div>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/[0.06] via-transparent to-transparent"></div>
+      <div className="hero-blob -z-10 w-[520px] h-[520px] left-[-200px] top-[-220px] bg-white/[0.09]"></div>
+      <div className="hero-blob -z-10 w-[560px] h-[560px] right-[-240px] top-[10%] bg-white/[0.06] [animation-delay:1.2s]"></div>
+      <div className="hero-blob -z-10 w-[520px] h-[520px] left-[20%] bottom-[-260px] bg-white/[0.05] [animation-delay:2.2s]"></div>
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-          <div className="flex-1 text-center lg:text-left max-w-2xl" data-aos="fade-up">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-gradient uppercase tracking-wide">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12">
+          <div className="lg:col-span-7 text-center lg:text-left" data-aos="fade-up">
+            <p className="text-white/60 text-sm tracking-[0.18em] uppercase">
+              Full-Stack Developer
+            </p>
+            <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white">
               {profile.name}
             </h1>
-            <p className="text-xl md:text-2xl text-light/90 mb-6 font-medium">
-              {profile.headline}
+            <p className="mt-4 text-lg md:text-xl text-white/75 max-w-2xl mx-auto lg:mx-0">
+              Full-Stack Developer | React | Spring Boot | Cloud Enthusiast
             </p>
-            <h3 className="text-2xl md:text-3xl font-bold text-accent mb-8 min-h-[70px] flex items-center justify-center lg:justify-start">
-              {typingText}
-              <span className="animate-pulse ml-2">|</span>
-            </h3>
+            <p className="mt-3 text-white/55 max-w-2xl mx-auto lg:mx-0">
+              Building fast, accessible web experiences with clean architecture and modern tooling.
+            </p>
 
-            <div className="flex justify-center lg:justify-start gap-6 mb-8" data-aos="fade-up" data-aos-delay="200">
+            <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start" data-aos="fade-up" data-aos-delay="150">
               <a
-                href="https://linkedin.com/in/shaik-mohammed-sameer-6802bb2a0/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-3xl text-light hover:text-secondary transition-all duration-300 hover:scale-125"
-                aria-label="LinkedIn"
-              >
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-              <a
-                href="https://github.com/ShaikMohammedSameer3903"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-3xl text-light hover:text-secondary transition-all duration-300 hover:scale-125"
-                aria-label="GitHub"
-              >
-                <i className="fab fa-github"></i>
-              </a>
-            </div>
-
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4" data-aos="fade-up" data-aos-delay="400">
-              <a 
-                href="#contact" 
-                onClick={(e) => {
-                  e.preventDefault()
-                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
-                }}
-                className="modern-btn group"
-              >
-                <i className="fas fa-paper-plane mr-2 group-hover:translate-x-1 transition-transform"></i>Contact Me
-              </a>
-              <a 
-                href="#projects" 
+                href="#projects"
                 onClick={(e) => {
                   e.preventDefault()
                   document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="modern-btn-outline group"
+                className="modern-btn-primary"
               >
-                <i className="fas fa-code mr-2 group-hover:rotate-12 transition-transform"></i>View Projects
+                <i className="fas fa-code mr-2"></i>View Projects
               </a>
               <a
                 href="#resume"
@@ -156,20 +94,56 @@ const Home = () => {
                   e.preventDefault()
                   document.querySelector('#resume')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="resume-btn group"
+                className="modern-btn-outline"
               >
-                <i className="fas fa-file-pdf mr-2 group-hover:scale-110 transition-transform"></i>View Resume
+                <i className="fas fa-download mr-2"></i>Download Resume
+              </a>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="modern-btn-outline"
+              >
+                <i className="fas fa-paper-plane mr-2"></i>Contact Me
+              </a>
+            </div>
+
+            <div className="mt-8 flex items-center justify-center lg:justify-start gap-5" data-aos="fade-up" data-aos-delay="250">
+              <a
+                href="https://linkedin.com/in/shaik-mohammed-sameer-6802bb2a0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="LinkedIn"
+              >
+                <i className="fab fa-linkedin-in text-2xl"></i>
+              </a>
+              <a
+                href="https://github.com/ShaikMohammedSameer3903"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="GitHub"
+              >
+                <i className="fab fa-github text-2xl"></i>
               </a>
             </div>
           </div>
 
-          <div data-aos="zoom-in" data-aos-delay="200" className="flex-shrink-0">
-            <img
-              src="/assets/image/sameer.jpg"
-              alt="Profile"
-              className="w-64 md:w-80 h-64 md:h-80 rounded-full border-8 border-primary shadow-2xl animate-float object-cover"
-              loading="lazy"
-            />
+          <div className="lg:col-span-5 flex justify-center lg:justify-end" data-aos="zoom-in" data-aos-delay="150">
+            <div className="relative">
+              <div className="absolute -inset-8 rounded-full bg-white/[0.06] blur-2xl"></div>
+              <div className="relative w-64 md:w-80 aspect-square rounded-full overflow-hidden border border-white/15 bg-white/[0.04] shadow-[0_25px_60px_rgba(0,0,0,0.55)]">
+                <img
+                  src="/assets/image/sameer.jpg"
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
